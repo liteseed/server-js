@@ -6,6 +6,7 @@
     "dev": "bun run --watch src/index.ts"
   },
   "dependencies": {
+    "@permaweb/aoconnect": "^0.0.36",
     "elysia": "latest"
   },
   "devDependencies": {
