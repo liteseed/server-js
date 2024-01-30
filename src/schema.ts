@@ -5,6 +5,7 @@ export const bundlers = pgTable("bundlers", {
   id: text("id").primaryKey(),
   name: text("name"),
   website: text("website"),
+  transactionId: text("transactionId").notNull(),
 });
 
 export const bundlerDataRelation = relations(bundlers, ({ many }) => ({ data: many(data) }));
