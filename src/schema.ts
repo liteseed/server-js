@@ -3,6 +3,8 @@ import { pgEnum, pgTable, text } from 'drizzle-orm/pg-core';
 
 export const bundlers = pgTable("bundlers", {
   id: text("id").primaryKey(),
+  name: text("name"),
+  website: text("website"),
 });
 
 export const bundlerDataRelation = relations(bundlers, ({ many }) => ({ data: many(data) }));
