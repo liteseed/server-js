@@ -7,7 +7,7 @@ export const bundlers = pgTable("bundlers", {
 
 export const bundlerDataRelation = relations(bundlers, ({ many }) => ({ data: many(data) }));
 
-export const statusEnum = pgEnum('status', ['failed', 'initiated', 'success']);
+export const statusEnum = pgEnum('status', ['failed', 'initiated', 'queued', 'success']);
 
 export const data = pgTable("data", {
   id: text("id").primaryKey(),
