@@ -6,11 +6,15 @@
     "dev": "bun run --watch src/index.ts"
   },
   "dependencies": {
+    "@neondatabase/serverless": "^0.7.2",
     "@permaweb/aoconnect": "^0.0.36",
-    "elysia": "latest"
+    "drizzle-orm": "^0.29.3",
+    "elysia": "latest",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
-    "bun-types": "latest"
+    "bun-types": "latest",
+    "drizzle-kit": "^0.20.13"
   },
   "module": "src/index.js"
 }
