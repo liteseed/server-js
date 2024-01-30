@@ -3,5 +3,5 @@ import get from "./get";
 import getAll from "./getAll";
 
 export const bundlers = new Elysia({ name: "bundlers" })
-  .get("/", () => getAll())
-  .get("/:id", ({ params: { id } }) => get({ id }), { params: t.Object({ id: t.String() }) })
+  .get("/bundlers", () => getAll())
+  .get("/bundlers/:id", ({ params: { id } }) => get({ id }), { params: t.Object({ id: t.String() }) })
