@@ -1,5 +1,5 @@
 import { bundlers } from "../../schema";
-import { database } from "../../services";
+import { ao, database } from "../../services";
 import { generateRandomString } from "../../services/crypto";
 import { INTERNAL_SERVER_ERROR, parseJSON } from "../../utils/response";
 
@@ -7,6 +7,12 @@ export default async function post({ transactionId, name, website }: { transacti
   const id = generateRandomString();
   try {
     await database.insert(bundlers).values({ id, transactionId, name, website });
+  } catch (e) {
+    return INTERNAL_SERVER_ERROR;
+  }
+
+  try {
+    await ao.selectBundler({ id, transactionId })
   } catch (e) {
     return INTERNAL_SERVER_ERROR;
   }
