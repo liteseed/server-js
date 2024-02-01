@@ -1,6 +1,8 @@
-export async function selectBundler({ id, transactionId }: { id: string; transactionId: string; }) {
+async function selectBundler({ id, transactionId }: { id: string; transactionId: string; }) {
 }
 
-export default {
+const ao = {
   selectBundler,
 }
+
+export default ao;

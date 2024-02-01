@@ -1,6 +1,6 @@
+import { generateRandomString } from "../../functions";
 import { bundlers } from "../../schema";
 import { ao, database } from "../../services";
-import { generateRandomString } from "../../services/crypto";
 import { INTERNAL_SERVER_ERROR, parseJSON } from "../../utils/response";
 
 export default async function post({ transactionId, name, website }: { transactionId: string; name: string | undefined; website: string | undefined; }): Promise<Response> {

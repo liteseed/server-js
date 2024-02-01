@@ -10,4 +10,4 @@ export const UNAUTHORIZED = new Response(null, { status: 401, statusText: "UNAUT
  * @param {string} statusText 
  * @returns 
  */
-export const parseJSON = (data: Record<string, any> | Record<string, any>[] | null = null, status: number = 200, statusText: string = "OK") => new Response(JSON.stringify(data), { status, statusText });
+export const parseJSON = (data: Record<string, any> | Record<string, any>[] | string | null = null, status: number = 200, statusText: string = "OK") => new Response(JSON.stringify(data), { status, statusText });
