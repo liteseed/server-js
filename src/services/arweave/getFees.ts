@@ -1,4 +1,4 @@
-export async function getFees(bytes: bigint) {
+export async function getFees(bytes: bigint): Promise<bigint> {
   const response = await fetch(`https://arweave.net/price/${bytes.toString()}`, {
     method: "GET"
   });
