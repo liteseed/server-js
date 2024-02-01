@@ -5,7 +5,7 @@ import { BAD_REQUEST, INTERNAL_SERVER_ERROR, parseJSON } from "../../utils/respo
 
 export default async function post({ file, transactionId }: { file: File, transactionId: string }): Promise<Response> {
   const id = generateRandomString();
-  const verify = await verifyTransaction({ transactionId, size: BigInt(file.size) });
+  const verify = await verifyTransaction({ transactionId, bytes: BigInt(file.size) });
   if (!verify) {
     return BAD_REQUEST;
   }
