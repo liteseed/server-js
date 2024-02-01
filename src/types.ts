@@ -1,3 +1,3 @@
 import { data } from "./schema";
 
-export type Data = typeof data.$inferInsert;
+export type Data = typeof data.$inferSelect;

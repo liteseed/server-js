@@ -10,10 +10,9 @@ export default async function post({ file, transactionId }: { file: File, transa
     return BAD_REQUEST;
   }
   try {
-    await database.insert(data).values({ id });
+    await database.insert(data).values({ id, status: 'initiated' });
   } catch (e) {
     return INTERNAL_SERVER_ERROR;
   }
-  console.log(file, transactionId);
   return parseJSON({ id })
 }

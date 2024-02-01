@@ -1,8 +1,5 @@
-async function selectBundler({ id, transactionId }: { id: string; transactionId: string; }) {
-}
+import { connect } from "@permaweb/aoconnect";
 
-const ao = {
-  selectBundler,
-}
+const ao = connect({});
 
 export default ao;

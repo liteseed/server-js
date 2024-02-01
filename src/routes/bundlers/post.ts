@@ -12,7 +12,7 @@ export default async function post({ transactionId, name, website }: { transacti
   }
 
   try {
-    await ao.selectBundler({ id, transactionId })
+    
   } catch (e) {
     return INTERNAL_SERVER_ERROR;
   }
