@@ -42,3 +42,8 @@ yarn-error.log*
 **/*.log
 package-lock.json
 **/*.bun
+
+# wallet
+wallet.json
+arweave.json
+key.json
