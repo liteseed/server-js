@@ -1,5 +1,4 @@
-import { message } from "@permaweb/aoconnect";
-import { createDataItemSigner } from "@permaweb/aoconnect/dist/client/node/wallet";
+import { createDataItemSigner, message } from "@permaweb/aoconnect";
 import wallet from "../wallet";
 
 export default async function sendMessage({ processId, data }: { processId: string; data: string }) {

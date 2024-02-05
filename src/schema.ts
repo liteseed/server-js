@@ -1,11 +1,11 @@
 import { relations } from 'drizzle-orm';
-import { pgEnum, pgTable, text } from 'drizzle-orm/pg-core';
+import { pgEnum, pgTable, serial, text, uuid } from 'drizzle-orm/pg-core';
 
 export const bundlers = pgTable("bundlers", {
-  id: text("id").primaryKey(),
+  id: serial("id").primaryKey(),
   name: text("name"),
-  website: text("website"),
-  transactionId: text("transactionId").notNull(),
+  url: text("url"),
+  stakerId: text("stakerId").notNull(),
 });
 
 export const bundlerDataRelation = relations(bundlers, ({ many }) => ({ data: many(data) }));
@@ -13,6 +13,6 @@ export const bundlerDataRelation = relations(bundlers, ({ many }) => ({ data: ma
 export const statusEnum = pgEnum('status', ['failed', 'initiated', 'queued', 'success']);
 
 export const data = pgTable("data", {
-  id: text("id").primaryKey(),
+  id: uuid("id").primaryKey().defaultRandom(),
   status: statusEnum('status'),
 });

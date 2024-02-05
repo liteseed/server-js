@@ -1,6 +1,12 @@
-import { INTERNAL_SERVER_ERROR } from "../../utils/response";
+import { database } from "../../services";
+import { INTERNAL_SERVER_ERROR, parseJSON } from "../../utils/response";
 
 
 export default async function getAll(): Promise<Response> {
-  return INTERNAL_SERVER_ERROR;
+  try {
+    const response = await database.query.bundlers.findMany();
+    return parseJSON(response);
+  } catch (e) {
+    return INTERNAL_SERVER_ERROR;
+  }
 }
