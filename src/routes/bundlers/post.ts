@@ -1,6 +1,6 @@
-import { fetchStakers, generateRandomString } from "../../functions";
+import { fetchStakers } from "../../functions";
 import { bundlers } from "../../schema";
-import { ao, database } from "../../services";
+import { database } from "../../services";
 import { INTERNAL_SERVER_ERROR, NOT_FOUND, parseJSON } from "../../utils/response";
 
 export default async function post({ stakerId, name, url }: { stakerId: string; name: string | undefined; url: string; }): Promise<Response> {
