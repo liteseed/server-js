@@ -1,7 +1,10 @@
 import { ao } from "../services";
-import { LITESEED_CONTRACT_PROCESS_ID } from "../utils/constants";
 
-export async function fetchStakers(): Promise<string[]> {
-  const response = await ao.sendMessage({ processId: LITESEED_CONTRACT_PROCESS_ID, data: "Stakers" });
-  return JSON.parse(response.toString());
+type FetchStakersResponse = { process: string; amount: number; stakedAt: number }[];
+
+export async function fetchStakers(): Promise<FetchStakersResponse> {
+  const message = await ao.sendMessage({ tags: [{ name: "Action", value: "Stakers" }] });
+  const { Messages } = await ao.readResult({ message });
+  const data = JSON.parse(Messages[0].Data ?? "");
+  return Object.keys(data).map((key) => ({ process: key, ...data[key] }));
 }

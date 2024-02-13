@@ -5,6 +5,9 @@ import post from "./post";
 
 export const bundlers = new Elysia({ name: "bundlers" })
   .get("/bundlers", () => getAll())
-  .get("/bundlers/:id", ({ params: { id } }) => get({ id }), { params: t.Object({ id: t.String() }) })
-  .post("/bundlers", ({ body: { stakerId, name, url } }) => post({ stakerId, name, url }), 
-        { body: t.Object({ stakerId: t.String(), name: t.Optional(t.String()), url: t.String() }) })
+  .get("/bundler/:id", ({ params: { id } }) => get({ id }), {
+    params: t.Object({ id: t.String() }),
+  })
+  .post("/bundler", ({ body: { process, name, url } }) => post({ process, name, url }), {
+    body: t.Object({ process: t.String(), name: t.String(), url: t.String() }),
+  });

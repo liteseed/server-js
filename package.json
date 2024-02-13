@@ -1,6 +1,7 @@
 {
   "name": "server-js",
   "version": "1.0.50",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "bun run --watch src/index.ts",
@@ -10,6 +11,7 @@
     "@neondatabase/serverless": "^0.7.2",
     "@permaweb/aoconnect": "^0.0.36",
     "@urql/core": "^4.2.3",
+    "dotenv": "^16.4.1",
     "drizzle-orm": "^0.29.3",
     "elysia": "latest",
     "graphql": "^16.8.1",
@@ -20,8 +22,8 @@
     "@graphql-codegen/introspection": "4.0.0",
     "@graphql-codegen/typescript": "4.0.1",
     "@graphql-codegen/typescript-resolvers": "4.0.1",
+    "@types/bun": "^1.0.5",
     "drizzle-kit": "^0.20.14",
     "typescript": "^5.3.3"
-  },
-  "module": "src/index.js"
+  }
 }

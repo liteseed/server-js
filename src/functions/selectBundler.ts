@@ -1,10 +1,12 @@
-import { database } from "../services";
-import {fetchStakers} from "./fetchStakers";
 import crypto from "crypto";
+import { eq } from "drizzle-orm";
+import { database } from "../services";
+import { fetchStakers } from "./fetchStakers";
+import { bundlers } from "../schema";
 
 export async function selectBundler() {
   const stakers = await fetchStakers();
   const randomIndex = crypto.randomInt(stakers.length);
-  const bundlerId = stakers[randomIndex];
-  return await database.query.bundlers.findFirst({ with: { stakerId: bundlerId }});
+  const process = stakers[randomIndex];
+  return await database.query.bundlers.findFirst({ where: eq(bundlers.process, process) });
 }

@@ -1,23 +1,19 @@
 import { fetchStakers } from "../../functions";
-import { bundlers } from "../../schema";
-import { database } from "../../services";
 import { INTERNAL_SERVER_ERROR, NOT_FOUND, parseJSON } from "../../utils/response";
 
-export default async function post({ stakerId, name, url }: { stakerId: string; name: string | undefined; url: string; }): Promise<Response> {
-  let stakers: string[];
+type PostParams = { process: string; name: string; url: string };
+
+export default async function post({ process, name, url }: PostParams): Promise<Response> {
   try {
-    stakers = await fetchStakers(); 
+    const stakers = await fetchStakers();
+    const exists = stakers.find((staker) => staker.process === process && staker.amount >= 100);
+    if (!exists) {
+      return NOT_FOUND;
+    }
+    // await database.insert(bundlers).values({ stakerId, name, url });
+    return parseJSON({ process, name, url });
   } catch (e) {
+    console.log(e);
     return INTERNAL_SERVER_ERROR;
   }
-  const exists = stakers.find((v) => v === stakerId);
-  if (!exists) {
-    return NOT_FOUND;
-  }
-  try {
-    await database.insert(bundlers).values({ stakerId, name, url });
-  } catch (e) {
-    return INTERNAL_SERVER_ERROR;
-  }
-  return parseJSON({ stakerId, name, url })
 }
