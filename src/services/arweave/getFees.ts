@@ -1,8 +1,10 @@
-export async function getFees(bytes: bigint): Promise<bigint> {
-  const response = await fetch(`https://arweave.net/price/${bytes.toString()}`, {
-    method: "GET"
-  });
+type GetFeesParams = { bytes: bigint };
+type GetFeesResponse = Promise<bigint>;
 
-  const body = await response.json();
-  return BigInt(body.toString())
+export async function getFees(bytes: GetFeesParams): GetFeesResponse {
+  const response = await fetch(`https://arweave.net/price/${bytes.toString()}`, {
+    method: "GET",
+  });
+  const body = await response.text();
+  return BigInt(body);
 }

@@ -3,7 +3,7 @@ import { getTransaction } from "./getTransaction";
 
 const arweave = {
   getFees,
-  getTransaction
+  getTransaction,
 };
 
 export default arweave;

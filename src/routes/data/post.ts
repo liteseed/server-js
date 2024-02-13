@@ -1,34 +1,27 @@
-import { selectBundler, verifyTransaction } from "../../functions";
+import { postData, selectBundler, verifyTransaction } from "../../functions";
 import { data } from "../../schema";
 import { database } from "../../services";
-import { BundlerSelect, InsertData } from "../../types";
-import { BAD_REQUEST, INTERNAL_SERVER_ERROR, parseJSON } from "../../utils/response";
+import { BAD_REQUEST, INTERNAL_SERVER_ERROR, NOT_FOUND, parseJSON } from "../../utils/response";
 
-export default async function post({
-  file,
-  transactionId,
-}: {
+type DataPostParams = {
   file: File;
   transactionId: string;
-}): Promise<Response> {
-  let bundler: BundlerSelect, id: string, result: InsertData[], verify: boolean;
+};
 
+export default async function post({ file, transactionId }: DataPostParams): Promise<Response> {
   try {
-    verify = await verifyTransaction({ transactionId, bytes: BigInt(file.size) });
+    const verify = await verifyTransaction({ transactionId, bytes: BigInt(file.size) });
+    if (!verify) {
+      return BAD_REQUEST;
+    }
+    const bundler = await selectBundler();
+    if (!bundler) {
+      return NOT_FOUND;
+    }
+    await postData({ file, url: bundler.url });
+    const result = await database.insert(data).values({ status: "initiated" }).returning();
+    return parseJSON({ id: result[0].id });
   } catch (e) {
     return INTERNAL_SERVER_ERROR;
   }
-  if (!verify) {
-    return BAD_REQUEST;
-  }
-  try {
-    bundler = await selectBundler();
-  } catch (e) {}
-  try {
-    result = await database.insert(data).values({ status: "initiated" }).returning();
-    id = result[0].id!;
-  } catch (e) {
-    return INTERNAL_SERVER_ERROR;
-  }
-  return parseJSON({ id });
 }

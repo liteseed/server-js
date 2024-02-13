@@ -3,8 +3,8 @@ import { pgEnum, pgTable, serial, text, uuid } from "drizzle-orm/pg-core";
 
 export const bundlers = pgTable("bundlers", {
   id: serial("id").primaryKey(),
-  name: text("name"),
-  url: text("url"),
+  name: text("name").notNull(),
+  url: text("url").notNull(),
   process: text("process").notNull(),
 });
 

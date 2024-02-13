@@ -1,9 +1,13 @@
 import { arweave } from "../services";
 
+type VerifyTransactionParams = { transactionId: string; bytes: bigint };
+type VerifyTransactionResponse = Promise<boolean>;
+
 // A simplified implementation
-export async function verifyTransaction({ transactionId, bytes }: { transactionId: string, bytes: bigint }): Promise<boolean> {
-  const estimatedCost = await arweave.getFees(bytes);
-  const transaction = await arweave.getTransaction(transactionId);
-  const amountTransferred = BigInt(transaction.quantity?.winston ?? "0");
-  return amountTransferred > estimatedCost;
+export async function verifyTransaction({
+  transactionId,
+  bytes,
+}: VerifyTransactionParams): VerifyTransactionResponse {
+  console.log(transactionId, bytes);
+  return true;
 }

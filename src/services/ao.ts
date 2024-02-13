@@ -5,19 +5,19 @@ type SendMessageParams = {
   data?: Data;
   tags?: Tags;
 };
-type SendMessageResponse = string;
+type SendMessageResponse = Promise<string>;
 
 type ReadResultParams = { message: string };
-type ReadResultResponse = {
+type ReadResultResponse = Promise<{
   Messages: [Record<string, any> & { Data?: Data; Tags?: Tags }];
   Output: [Record<string, any>];
   Spawns: [Record<string, any>];
   Error?: [Record<string, any>];
   GasUsed: Number;
-};
+}>;
 
 class AO {
-  async sendMessage({ data, tags }: SendMessageParams): Promise<SendMessageResponse> {
+  async sendMessage({ data, tags }: SendMessageParams): SendMessageResponse {
     const response = await fetch(`${AO_SERVER}/${AO_CONTRACT}`, {
       method: "POST",
       headers: {
@@ -29,7 +29,7 @@ class AO {
     return await response.text();
   }
 
-  async readResult({ message }: ReadResultParams): Promise<ReadResultResponse> {
+  async readResult({ message }: ReadResultParams): ReadResultResponse {
     const response = await fetch(`${AO_SERVER}/${AO_CONTRACT}/${message}`, {
       method: "GET",
     });

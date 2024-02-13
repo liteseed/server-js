@@ -1,8 +1,8 @@
 import { ao } from "../services";
 
-type FetchStakersResponse = { process: string; amount: number; stakedAt: number }[];
+type GetStakers = { process: string; amount: number; stakedAt: number }[];
 
-export async function fetchStakers(): Promise<FetchStakersResponse> {
+export async function getStakers(): Promise<GetStakers> {
   const message = await ao.sendMessage({ tags: [{ name: "Action", value: "Stakers" }] });
   const { Messages } = await ao.readResult({ message });
   const data = JSON.parse(Messages[0].Data ?? "");
