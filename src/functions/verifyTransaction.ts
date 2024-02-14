@@ -8,6 +8,6 @@ export async function verifyTransaction({
   transactionId,
   bytes,
 }: VerifyTransactionParams): VerifyTransactionResponse {
-  console.log(transactionId, bytes);
+  console.log(`VERIFY: ${transactionId}, ${bytes}`);
   return true;
 }

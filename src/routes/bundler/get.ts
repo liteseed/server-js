@@ -3,10 +3,12 @@ import { database } from "../../services";
 import { INTERNAL_SERVER_ERROR, NOT_FOUND, parseJSON } from "../../utils/response";
 import { bundlers } from "../../schema";
 
-type GetParam = { id: string };
-export default async function get({ id }: GetParam): Promise<Response> {
+type GetParam = { process: string };
+export default async function get({ process }: GetParam): Promise<Response> {
   try {
-    const result = await database.query.bundlers.findFirst({ where: eq(bundlers.stakerId, id) });
+    const result = await database.query.bundlers.findFirst({
+      where: eq(bundlers.process, process),
+    });
     if (!result) {
       return NOT_FOUND;
     }

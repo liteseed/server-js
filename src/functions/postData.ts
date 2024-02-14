@@ -1,10 +1,12 @@
 type PostDataParams = { file: File; url: string };
 type PostDataResponse = Promise<Response>;
 
-export async function postData({ file, url }: PostDataParams): PostDataResponse {
-  const response = await fetch(url, {
+export function postData({ file, url }: PostDataParams): PostDataResponse {
+  console.log("POST DATA");
+  const data = new FormData();
+  data.append("file", file);
+  return fetch(url, {
     method: "POST",
-    body: file,
+    body: data,
   });
-  return response;
 }
