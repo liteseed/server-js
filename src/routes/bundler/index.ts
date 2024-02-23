@@ -13,7 +13,7 @@ export const bundlers = new Elysia({ name: "bundlers" })
     body: t.Object({ process: t.String(), name: t.String(), url: t.String() }),
   })
   .put(
-    "/bundle/:process",
+    "/bundler/:process",
     ({ params: { process }, body: { name, url } }) => put({ process, name, url }),
     {
       params: t.Object({ process: t.String() }),

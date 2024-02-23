@@ -1,4 +1,4 @@
-import { AO_CONTRACT, AO_SERVER } from "../utils/constants";
+import { AO_CONTRACT, LAMBDA } from "../utils/constants";
 import type { Data, Tags } from "../types";
 
 type SendMessageParams = {
@@ -13,12 +13,16 @@ type ReadResultResponse = Promise<{
   Output: [Record<string, any>];
   Spawns: [Record<string, any>];
   Error?: [Record<string, any>];
-  GasUsed: Number;
+  GasUsed: number;
 }>;
 
-class AO {
+type ProcessFileParams = { file: File; url: string; };
+
+type ProcessFileResponse = Promise<Response>
+
+class Lambda {
   async sendMessage({ data, tags }: SendMessageParams): SendMessageResponse {
-    const response = await fetch(`${AO_SERVER}/${AO_CONTRACT}`, {
+    const response = await fetch(`${LAMBDA}/${AO_CONTRACT}`, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -30,11 +34,21 @@ class AO {
   }
 
   async readResult({ message }: ReadResultParams): ReadResultResponse {
-    const response = await fetch(`${AO_SERVER}/${AO_CONTRACT}/${message}`, {
+    const response = await fetch(`${LAMBDA}/${AO_CONTRACT}/${message}`, {
       method: "GET",
     });
     return await response.json();
   }
+
+  async processFile({ file, url }: ProcessFileParams): ProcessFileResponse {
+    return fetch(`${LAMBDA}/sign`, {
+      method: "POST",   
+      headers: {
+        forward: url,
+      },
+      body: Buffer.from(await file.arrayBuffer()),
+    });
+  }
 }
 
-export default new AO();
+export default new Lambda();

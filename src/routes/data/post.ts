@@ -1,29 +1,27 @@
 import { eq } from "drizzle-orm";
-import { postData, selectRandomStaker, verifyTransaction } from "../../functions";
+import { selectRandomStaker } from "../../functions";
 import { data } from "../../schema";
-import { database } from "../../services";
-import { BAD_REQUEST, INTERNAL_SERVER_ERROR, NOT_FOUND, parseJSON } from "../../utils/response";
+import { database, lambda } from "../../services";
+import { INTERNAL_SERVER_ERROR, NOT_FOUND, NO_CONTENT, parseJSON } from "../../utils/response";
+
 
 type DataPostParams = {
   file: File;
-  transactionId: string;
 };
 
-export default async function post({ file, transactionId }: DataPostParams): Promise<Response> {
+export default async function post({ file }: DataPostParams): Promise<Response> {
   try {
-    const verify = await verifyTransaction({ transactionId, bytes: BigInt(file.size) });
-    if (!verify) {
-      return BAD_REQUEST;
-    }
     const staker = await selectRandomStaker();
     if (!staker) {
       return NOT_FOUND;
     }
-    const result = await database.insert(data).values({ status: "initiated" }).returning();
-    const response = await postData({ file, url: staker.url });
-    await database.update(data).set({ status: "queued" }).where(eq(data.id, result[0].id));
-    return parseJSON({ id: result[0].id });
+    const result = await database.insert(data).values({ status: "initiated" }).returning()
+    const response = await lambda.processFile({ file, url: staker.url })
+    await database.update(data).set({ status: "queued" }).where(eq(data.id, result[0].id))
+
+    return (await response.json());
   } catch (e) {
+    console.log(e)
     return INTERNAL_SERVER_ERROR;
   }
 }
