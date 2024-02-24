@@ -6,6 +6,11 @@ import { data } from "./routes/data";
 import { parseJSON } from "./utils/response";
 
 const app = new Elysia()
+  .onError(({ code, error }) => {
+    if (code === "INTERNAL_SERVER_ERROR" || code === "UNKNOWN") {
+      console.log(error)
+    }
+  })
   .use(cors())
   .use(cost)
   .use(data)
