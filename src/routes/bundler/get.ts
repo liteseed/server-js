@@ -9,7 +9,7 @@ export default async function get({ process }: GetParam): Promise<Response> {
     where: eq(bundlers.process, process),
   });
   if (!result) {
-    return NOT_FOUND;
+    return NOT_FOUND(`Process ${process} does not exist`);
   }
   return parseJSON(result);
 }

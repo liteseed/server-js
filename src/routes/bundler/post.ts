@@ -9,7 +9,7 @@ export default async function post({ process, name, url }: PostParams): Promise<
   const stakers = await getStakers();
   const exists = stakers.find((staker) => staker.process === process && staker.amount >= 100);
   if (!exists) {
-    return NOT_FOUND;
+    return NOT_FOUND(`Process ${process} does not exist`);
   }
   await database.insert(bundlers).values({ process, name, url });
   return parseJSON({ process, name, url });

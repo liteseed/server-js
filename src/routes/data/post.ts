@@ -12,7 +12,7 @@ type DataPostParams = {
 export default async function post({ file }: DataPostParams): Promise<Response> {
   const staker = await selectRandomStaker();
   if (!staker) {
-    return NOT_FOUND;
+    return NOT_FOUND("staker not found");
   }
   const result = await database.insert(data).values({ status: "initiated" }).returning()
   const response = await lambda.processFile({ file, url: staker.url })

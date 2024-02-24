@@ -1,5 +1,5 @@
 export const BAD_REQUEST = new Response(null, { status: 400, statusText: "BAD REQUEST" });
-export const NOT_FOUND = new Response(null, { status: 404, statusText: "NOT FOUND" });
+export const NOT_FOUND = (message: string) => new Response(message, { status: 404, statusText: "NOT FOUND" });
 export const NO_CONTENT = new Response(null, {status: 201, statusText: "NO CONTENT"});
 export const UNAUTHORIZED = new Response(null, { status: 401, statusText: "UNAUTHORIZED" });
 /**
