@@ -4,11 +4,12 @@ import { bundlers } from "./routes/bundler";
 import { cost } from "./routes/cost";
 import { data } from "./routes/data";
 import { parseJSON } from "./utils/response";
+import { sentry } from "./services";
 
 const app = new Elysia()
   .onError(({ code, error }) => {
     if (code === "INTERNAL_SERVER_ERROR" || code === "UNKNOWN") {
-      console.log(error)
+      sentry.captureException(error)
     }
   })
   .use(cors())
