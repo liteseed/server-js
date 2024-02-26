@@ -1,7 +1,7 @@
 import { InternalServerError } from "elysia";
 
 import { selectRandomStaker } from "../../functions";
-import { dataSchema } from "../../schema";
+import { bundlerResponseSchema, dataSchema } from "../../schema";
 import { database, lambda } from "../../services";
 import { parseJSON } from "../../utils/response";
 
@@ -20,5 +20,6 @@ export default async function post({ file }: DataPostParams): Promise<Response> 
     .values({ status: "queued", bundlerId: staker.id, dataId: bundlerResponse.id })
     .returning();
 
+  await database.insert(bundlerResponseSchema).values(bundlerResponse);
   return parseJSON({ ...result[0] });
 }

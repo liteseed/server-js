@@ -10,6 +10,7 @@
   "dependencies": {
     "@bogeychan/elysia-logger": "^0.0.17",
     "@elysiajs/cors": "^0.8.0",
+    "@elysiajs/stream": "^0.8.0",
     "@neondatabase/serverless": "^0.7.2",
     "@sentry/node": "^7.102.1",
     "@urql/core": "^4.2.3",
