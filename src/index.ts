@@ -5,13 +5,19 @@ import { cost } from "./routes/cost";
 import { data } from "./routes/data";
 import { parseJSON } from "./utils/response";
 import { sentry } from "./services";
+import { logger } from "@bogeychan/elysia-logger";
 
 const app = new Elysia()
   .onError(({ code, error }) => {
     if (code === "INTERNAL_SERVER_ERROR" || code === "UNKNOWN") {
-      sentry.captureException(error)
+      sentry.captureException(error);
     }
   })
+  .use(
+    logger({
+      level: 'debug'
+    })
+  )
   .use(cors())
   .use(cost)
   .use(data)

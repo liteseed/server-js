@@ -2,7 +2,13 @@ import { neon } from '@neondatabase/serverless';
 import { drizzle } from 'drizzle-orm/neon-http';
 import * as schema from '../schema';
 
-const client = neon(process.env.DATABASE_URL!);
-const database = drizzle(client, { schema });
+function createDatabaseClient() {
+  const connection = process.env.DATABASE_URL;
+  if (connection === undefined) {
+    throw Error("DATABASE_URL missing")
+  }
+  const client = neon(connection);
+  return drizzle(client, { schema })
+}
 
-export default database
+export default createDatabaseClient()

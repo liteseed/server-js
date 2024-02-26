@@ -1,8 +1,8 @@
 import { eq } from "drizzle-orm";
 import { getStakers } from "../../functions";
-import { bundlers } from "../../schema";
+import { bundlersSchema } from "../../schema";
 import { database } from "../../services";
-import { NOT_FOUND, parseJSON } from "../../utils/response";
+import { notFound, parseJSON } from "../../utils/response";
 
 type PutParams = { process: string; name: string; url: string };
 
@@ -10,8 +10,8 @@ export default async function put({ process, name, url }: PutParams): Promise<Re
   const stakers = await getStakers();
   const exists = stakers.find((staker) => staker.process === process && staker.amount >= 100);
   if (!exists) {
-    return NOT_FOUND(`Process ${process} does not exist`);
+    return notFound(`Process ${process} does not exist`);
   }
-  await database.update(bundlers).set({  name, url }).where(eq(bundlers.process, process));
+  await database.update(bundlersSchema).set({  name, url }).where(eq(bundlersSchema.process, process));
   return parseJSON({ process, name, url });
 }

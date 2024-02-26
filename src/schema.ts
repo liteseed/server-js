@@ -1,18 +1,37 @@
-import { relations } from "drizzle-orm";
-import { pgEnum, pgTable, serial, text, uuid } from "drizzle-orm/pg-core";
+import {
+  bigint,
+  integer,
+  pgEnum,
+  pgTable,
+  serial,
+  text,
+  timestamp,
+  uuid,
+} from "drizzle-orm/pg-core";
 
-export const bundlers = pgTable("bundlers", {
+export const bundlersSchema = pgTable("bundlers", {
   id: serial("id").primaryKey(),
   name: text("name").notNull(),
-  url: text("url").notNull(),
   process: text("process").notNull(),
-});
 
-export const bundlerDataRelation = relations(bundlers, ({ many }) => ({ data: many(data) }));
+  url: text("url").notNull(),
+});
 
 export const statusEnum = pgEnum("status", ["failed", "initiated", "queued", "success"]);
 
-export const data = pgTable("data", {
+export const dataSchema = pgTable("data", {
   id: uuid("id").primaryKey().defaultRandom(),
-  status: statusEnum("status"),
+  bundlerId: integer("bundler_id").notNull(),
+  dataId: text("data_id"),
+  status: statusEnum("status").notNull(),
+});
+
+export const bundlerResponseSchema = pgTable("bundler_response", {
+  id: text("id").primaryKey(),
+  owner: text("owner").notNull(),
+  deadlineHeight: bigint("deadline_height", { mode: "bigint" }).notNull(),
+  timestamp: timestamp("timestamp", { mode: "string" }).notNull(),
+  version: text("version"),
+  signature: text("signature"),
+  public: text("public"),
 });

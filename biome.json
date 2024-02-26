@@ -1,15 +1,41 @@
 {
-	"$schema": "https://biomejs.dev/schemas/1.5.3/schema.json",
-  "organizeImports": {
-		"enabled": true
-	},
-	"linter": {
-		"enabled": true,
-		"rules": {
-			"recommended": true,
+  "$schema": "https://biomejs.dev/schemas/1.5.3/schema.json",
+  "files": {
+    "ignore": [
+      "./src/services/arweave/types.ts"
+    ]
+  },
+  "formatter": {
+    "lineWidth": 100
+  },
+  "javascript": {
+    "formatter": {
+      "indentStyle":"space",
+      "indentWidth": 2,
+      "quoteStyle": "double",
+      "semicolons": "always",
+      "trailingComma": "all"
+    }
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "correctness": {
+        "all": true
+      },
+      "performance": {
+        "all": true
+      },
+      "recommended": true,
+      "security": {
+        "recommended": true
+      },
       "suspicious": {
         "noExplicitAny": "off"
       }
     }
+  },
+  "organizeImports": {
+    "enabled": true
   }
 }

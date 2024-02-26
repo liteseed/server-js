@@ -1,7 +1,7 @@
 import { getStakers } from "../../functions";
-import { bundlers } from "../../schema";
+import { bundlersSchema } from "../../schema";
 import { database } from "../../services";
-import { NOT_FOUND, parseJSON } from "../../utils/response";
+import { notFound, parseJSON } from "../../utils/response";
 
 type PostParams = { process: string; name: string; url: string };
 
@@ -9,8 +9,8 @@ export default async function post({ process, name, url }: PostParams): Promise<
   const stakers = await getStakers();
   const exists = stakers.find((staker) => staker.process === process && staker.amount >= 100);
   if (!exists) {
-    return NOT_FOUND(`Process ${process} does not exist`);
+    return notFound(`Process ${process} does not exist`);
   }
-  await database.insert(bundlers).values({ process, name, url });
+  await database.insert(bundlersSchema).values({ process, name, url });
   return parseJSON({ process, name, url });
 }

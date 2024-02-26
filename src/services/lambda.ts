@@ -1,5 +1,5 @@
 import { AO_CONTRACT, LAMBDA } from "../utils/constants";
-import type { Data, Tags } from "../types";
+import type { BundlerResponse, Data, Tags } from "../types";
 
 type SendMessageParams = {
   data?: Data;
@@ -18,7 +18,7 @@ type ReadResultResponse = Promise<{
 
 type ProcessFileParams = { file: File; url: string; };
 
-type ProcessFileResponse = Promise<Response>
+type ProcessFileResponse = Promise<BundlerResponse>
 
 class Lambda {
   async sendMessage({ data, tags }: SendMessageParams): SendMessageResponse {
@@ -40,15 +40,18 @@ class Lambda {
     return await response.json();
   }
 
+  // Post data to the transaction pool
   async processFile({ file, url }: ProcessFileParams): ProcessFileResponse {
-    return fetch(`${LAMBDA}/sign`, {
-      method: "POST",   
+    const response = await fetch(`${LAMBDA}/sign`, {
+      method: "POST",
       headers: {
         forward: url,
       },
       body: Buffer.from(await file.arrayBuffer()),
     });
+    return response.json();
   }
 }
 
-export default new Lambda();
+const lambda = new Lambda();
+export default lambda;

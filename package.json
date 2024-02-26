@@ -8,6 +8,7 @@
     "codegen": "graphql-codegen --config codegen.ts"
   },
   "dependencies": {
+    "@bogeychan/elysia-logger": "^0.0.17",
     "@elysiajs/cors": "^0.8.0",
     "@neondatabase/serverless": "^0.7.2",
     "@sentry/node": "^7.102.1",
@@ -19,7 +20,7 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.5.3",
+    "@biomejs/biome": "^1.5.3",
     "@graphql-codegen/cli": "5.0.0",
     "@graphql-codegen/introspection": "4.0.0",
     "@graphql-codegen/typescript": "4.0.1",

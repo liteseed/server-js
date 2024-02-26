@@ -1,15 +1,15 @@
 import { eq } from "drizzle-orm";
-import { bundlers } from "../../schema";
+import { bundlersSchema } from "../../schema";
 import { database } from "../../services";
-import { NOT_FOUND, parseJSON } from "../../utils/response";
+import { notFound, parseJSON } from "../../utils/response";
 
 type GetParam = { process: string };
 export default async function get({ process }: GetParam): Promise<Response> {
   const result = await database.query.bundlers.findFirst({
-    where: eq(bundlers.process, process),
+    where: eq(bundlersSchema.process, process),
   });
   if (!result) {
-    return NOT_FOUND(`Process ${process} does not exist`);
+    return notFound(`Process ${process} does not exist`);
   }
   return parseJSON(result);
 }

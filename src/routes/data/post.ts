@@ -1,9 +1,9 @@
-import { eq } from "drizzle-orm";
-import { selectRandomStaker } from "../../functions";
-import { data } from "../../schema";
-import { database, lambda } from "../../services";
-import { NOT_FOUND } from "../../utils/response";
+import { InternalServerError } from "elysia";
 
+import { selectRandomStaker } from "../../functions";
+import { dataSchema } from "../../schema";
+import { database, lambda } from "../../services";
+import { parseJSON } from "../../utils/response";
 
 type DataPostParams = {
   file: File;
@@ -12,10 +12,13 @@ type DataPostParams = {
 export default async function post({ file }: DataPostParams): Promise<Response> {
   const staker = await selectRandomStaker();
   if (!staker) {
-    return NOT_FOUND("staker not found");
+    throw new InternalServerError();
   }
-  const result = await database.insert(data).values({ status: "initiated" }).returning()
-  const response = await lambda.processFile({ file, url: staker.url })
-  await database.update(data).set({ status: "queued" }).where(eq(data.id, result[0].id))
-  return (await response.json());
+  const bundlerResponse = await lambda.processFile({ file, url: staker.url });
+  const result = await database
+    .insert(dataSchema)
+    .values({ status: "queued", bundlerId: staker.id, dataId: bundlerResponse.id })
+    .returning();
+
+  return parseJSON({ ...result[0] });
 }
