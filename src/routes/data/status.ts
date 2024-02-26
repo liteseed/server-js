@@ -1,7 +1,7 @@
 import { eq } from "drizzle-orm";
 import { bundlersSchema, dataSchema } from "../../schema";
 import { database } from "../../services";
-import { NO_CONTENT, notFound, parseJSON } from "../../utils/response";
+import { NO_CONTENT, notFound } from "../../utils/response";
 
 type DataItemStatus = {
   status: string;
@@ -13,7 +13,7 @@ async function checkStatus(id: string, url: string): Promise<DataItemStatus> {
   return await response.json();
 }
 
-export default async function status({id}:{id: string}): Promise<Response> {
+export default async function status({ id }: { id: string }): Promise<Response> {
   const data = await database.query.dataSchema.findFirst({ where: eq(dataSchema.id, id) });
   if (!data) {
     return notFound(`data:id-${id}`);
