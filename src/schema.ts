@@ -5,8 +5,7 @@ import {
   pgTable,
   serial,
   text,
-  timestamp,
-  uuid,
+  uuid
 } from "drizzle-orm/pg-core";
 
 export const bundlersSchema = pgTable("bundlers", {
@@ -30,7 +29,7 @@ export const bundlerResponseSchema = pgTable("bundler_response", {
   id: text("id").primaryKey(),
   owner: text("owner").notNull(),
   deadlineHeight: bigint("deadline_height", { mode: "bigint" }).notNull(),
-  timestamp: timestamp("timestamp", { mode: "string" }).notNull(),
+  timestamp: text("timestamp").notNull(),
   version: text("version"),
   signature: text("signature"),
   public: text("public"),
