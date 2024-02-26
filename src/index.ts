@@ -1,11 +1,11 @@
+import { logger } from "@bogeychan/elysia-logger";
 import { cors } from "@elysiajs/cors";
 import { Elysia } from "elysia";
 import { bundlers } from "./routes/bundler";
 import { cost } from "./routes/cost";
 import { data } from "./routes/data";
-import { parseJSON } from "./utils/response";
 import { sentry } from "./services";
-import { logger } from "@bogeychan/elysia-logger";
+import { parseJSON } from "./utils/response";
 
 const app = new Elysia()
   .onError(({ code, error }) => {
@@ -15,8 +15,8 @@ const app = new Elysia()
   })
   .use(
     logger({
-      level: 'debug'
-    })
+      level: process.env.Environment === "production" ? "silent" : "debug",
+    }),
   )
   .use(cors())
   .use(cost)
