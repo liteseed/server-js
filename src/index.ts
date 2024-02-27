@@ -11,16 +11,24 @@ import { parseJSON } from "./utils/response";
 
 const app = new Elysia()
   .use(rateLimit())
-  .onError(({ code, error }) => {
-    if (code === "INTERNAL_SERVER_ERROR" || code === "UNKNOWN") {
-      sentry.captureException(error);
-    }
-  })
+  .use(cors())
   .use(
     logger({
       level: process.env.Environment === "production" ? "silent" : "debug",
     }),
   )
+ 
+  .onError(({ code, error }) => {
+    if (code === "INTERNAL_SERVER_ERROR" || code === "UNKNOWN") {
+      sentry.captureException(error);
+    }
+  })
+  .use(cost)
+  .use(data)
+  .use(bundlers)
+  .get("/", () => parseJSON({ version: "0.0.2", name: "Liteseed API" }), {
+    detail: { summary: "Get the current status of the server", tags: ["App"] },
+  })
   .use(
     swagger({
       documentation: {
@@ -40,13 +48,6 @@ const app = new Elysia()
       ]
     }),
   )
-  .use(cors())
-  .use(cost)
-  .use(data)
-  .use(bundlers)
-  .get("/", () => parseJSON({ version: "0.0.2", name: "Liteseed API" }), {
-    detail: { summary: "Get the current status of the server", tags: ["App"] },
-  })
   .listen(3000);
 
 console.log(`🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`);

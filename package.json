@@ -11,7 +11,7 @@
     "@bogeychan/elysia-logger": "^0.0.17",
     "@elysiajs/cors": "^0.8.0",
     "@elysiajs/stream": "^0.8.0",
-    "@elysiajs/swagger": "^0.8.5",
+    "@elysiajs/swagger": "^1.0.0-beta.2",
     "@neondatabase/serverless": "^0.7.2",
     "@sentry/node": "^7.102.1",
     "@urql/core": "^4.2.3",

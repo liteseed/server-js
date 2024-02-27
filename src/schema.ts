@@ -12,7 +12,6 @@ export const bundlersSchema = pgTable("bundlers", {
   id: serial("id").primaryKey(),
   name: text("name").notNull(),
   process: text("process").notNull(),
-
   url: text("url").notNull(),
 });
 
