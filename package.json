@@ -17,6 +17,7 @@
     "dotenv": "^16.4.1",
     "drizzle-orm": "^0.29.3",
     "elysia": "latest",
+    "elysia-rate-limit": "^2.0.1",
     "graphql": "^16.8.1",
     "zod": "^3.22.4"
   },

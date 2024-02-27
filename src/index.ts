@@ -6,8 +6,10 @@ import { cost } from "./routes/cost";
 import { data } from "./routes/data";
 import { sentry } from "./services";
 import { parseJSON } from "./utils/response";
+import { rateLimit } from "elysia-rate-limit";
 
 const app = new Elysia()
+  .use(rateLimit())
   .onError(({ code, error }) => {
     if (code === "INTERNAL_SERVER_ERROR" || code === "UNKNOWN") {
       sentry.captureException(error);
@@ -19,6 +21,7 @@ const app = new Elysia()
     }),
   )
   .use(cors())
+
   .use(cost)
   .use(data)
   .use(bundlers)
