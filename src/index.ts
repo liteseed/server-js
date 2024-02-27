@@ -21,7 +21,6 @@ const app = new Elysia()
       level: process.env.Environment === "production" ? "silent" : "debug",
     }),
   )
-  .use(cors())
   .use(
     swagger({
       documentation: {
@@ -41,6 +40,7 @@ const app = new Elysia()
       ]
     }),
   )
+  .use(cors())
   .use(cost)
   .use(data)
   .use(bundlers)
