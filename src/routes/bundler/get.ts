@@ -5,7 +5,7 @@ import { notFound, parseJSON } from "../../utils/response";
 
 type GetParam = { process: string };
 export default async function get({ process }: GetParam): Promise<Response> {
-  const result = await database.query.bundlers.findFirst({
+  const result = await database.query.bundlersSchema.findFirst({
     where: eq(bundlersSchema.process, process),
   });
   if (!result) {
