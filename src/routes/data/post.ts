@@ -3,13 +3,18 @@ import { InternalServerError } from "elysia";
 import { selectRandomStaker } from "../../functions";
 import { bundlerResponseSchema, dataSchema } from "../../schema";
 import { database, lambda } from "../../services";
-import { parseJSON } from "../../utils/response";
+import { badRequest, parseJSON } from "../../utils/response";
 
 type DataPostParams = {
   file: File;
 };
 
+const MAX_SIZE = 1024 * 500;
+
 export default async function post({ file }: DataPostParams): Promise<Response> {
+  if (file.size > MAX_SIZE) {
+    return badRequest(`file size too large: ${file.size}`);
+  }
   const staker = await selectRandomStaker();
   if (!staker) {
     throw new InternalServerError();
