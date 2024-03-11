@@ -2,7 +2,6 @@ import { logger } from "@bogeychan/elysia-logger";
 import { cors } from "@elysiajs/cors";
 import { swagger } from "@elysiajs/swagger";
 import { Elysia } from "elysia";
-import { rateLimit } from "elysia-rate-limit";
 import { bundlers } from "./routes/bundler";
 import { cost } from "./routes/cost";
 import { data } from "./routes/data";
@@ -10,7 +9,6 @@ import { sentry } from "./services";
 import { parseJSON } from "./utils/response";
 
 const app = new Elysia()
-  .use(rateLimit())
   .use(cors())
   .use(
     logger({
