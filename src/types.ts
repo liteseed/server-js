@@ -22,5 +22,4 @@ export type BundlerResponse = {
 
 export type StatusResponse = {
   id: string;
-  
-}
+};

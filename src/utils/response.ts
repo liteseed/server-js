@@ -6,13 +6,7 @@ export const UNAUTHORIZED = new Response(null, {
   status: 401,
   statusText: "UNAUTHORIZED",
 });
-/**
- *
- * @param {Record<string, any> | Record<string, any>[] | null} data
- * @param {number} status
- * @param {string} statusText
- * @returns
- */
+
 export const badRequest = (message: string) =>
   new Response(message, { status: 400, statusText: "BAD REQUEST" });
 export const notFound = (message: string) =>

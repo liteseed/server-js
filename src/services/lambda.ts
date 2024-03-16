@@ -16,9 +16,9 @@ type ReadResultResponse = Promise<{
   GasUsed: number;
 }>;
 
-type ProcessFileParams = { file: File; url: string; };
+type ProcessFileParams = { file: File; url: string; tags: Tags };
 
-type ProcessFileResponse = Promise<BundlerResponse>
+type ProcessFileResponse = Promise<BundlerResponse>;
 
 class Lambda {
   async sendMessage({ data, tags }: SendMessageParams): SendMessageResponse {
@@ -41,11 +41,12 @@ class Lambda {
   }
 
   // Post data to the transaction pool
-  async processFile({ file, url }: ProcessFileParams): ProcessFileResponse {
+  async processFile({ file, url, tags }: ProcessFileParams): ProcessFileResponse {
     const response = await fetch(`${LAMBDA}/sign`, {
       method: "POST",
       headers: {
         forward: url,
+        tags: JSON.stringify(tags), // WTF LMAO
       },
       body: Buffer.from(await file.arrayBuffer()),
     });
