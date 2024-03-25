@@ -1,9 +1,9 @@
-import { InternalServerError } from "elysia";
+import { InternalServerError, ParseError,  } from "elysia";
 
 import { selectRandomStaker } from "../../functions";
 import { bundlerResponseSchema, dataSchema } from "../../schema";
 import { database, lambda } from "../../services";
-import { badRequest, parseJSON } from "../../utils/response";
+import { parseJSON } from "../../utils/response";
 import type { Tags } from "../../types";
 
 type UploadDataParams = {
@@ -18,7 +18,7 @@ export default async function uploadData({
   tags: tagsJson,
 }: UploadDataParams): Promise<Response> {
   if (file.size > MAX_SIZE) {
-    return badRequest(`file size too large: ${file.size}`);
+    throw new ParseError(`file size too large: ${file.size}`)
   }
   const tags: Tags = await JSON.parse(tagsJson);
   const staker = await selectRandomStaker();

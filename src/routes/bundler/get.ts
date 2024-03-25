@@ -1,7 +1,8 @@
 import { eq } from "drizzle-orm";
 import { bundlersSchema } from "../../schema";
 import { database } from "../../services";
-import { notFound, parseJSON } from "../../utils/response";
+import { parseJSON } from "../../utils/response";
+import { NotFoundError } from "elysia";
 
 type GetParam = { process: string };
 export default async function get({ process }: GetParam): Promise<Response> {
@@ -9,7 +10,7 @@ export default async function get({ process }: GetParam): Promise<Response> {
     where: eq(bundlersSchema.process, process),
   });
   if (!result) {
-    return notFound(`Process ${process} does not exist`);
+    throw new NotFoundError(`Process ${process} does not exist`);
   }
   return parseJSON(result);
 }
