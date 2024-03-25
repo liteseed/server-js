@@ -28,7 +28,7 @@ export default async function uploadData({
   const bundlerResponse = await lambda.processFile({ file, url: staker.url, tags: tags });
   const result = await database
     .insert(dataSchema)
-    .values({ status: "queued", bundlerId: staker.id, dataId: bundlerResponse.id })
+    .values({ status: "queued", bundlerId: staker.id, arweaveId: bundlerResponse.id })
     .returning();
 
   await database.insert(bundlerResponseSchema).values(bundlerResponse);

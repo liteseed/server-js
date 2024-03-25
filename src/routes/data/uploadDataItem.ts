@@ -23,7 +23,7 @@ export default async function item({ data }: UploadDataParams): Promise<Response
   const response = await bundlerResponse.json()
   const result = await database
     .insert(dataSchema)
-    .values({ status: "queued", bundlerId: staker.id, dataId: response.id })
+    .values({ status: "queued", bundlerId: staker.id, arweaveId: response.id })
     .returning();
 
   await database.insert(bundlerResponseSchema).values(response);

@@ -1,14 +1,28 @@
 import Elysia, { t } from "elysia";
-import get from "./get";
-import uploadData from "./uploadData";
 import status from "./status";
+import uploadData from "./uploadData";
+import decode from "./decode";
 
 export const data = new Elysia({ name: "data" })
-  .get("/data/:id", ({ params: { id } }) => get({ id }), {
+  .get("/data/:id", ({ params: { id } }) => decode({ id }), {
     params: t.Object({ id: t.String() }),
     detail: {
       summary: "Get uploaded data by ID",
-      description: "Get information about the status of the uploaded data by it's ID",
+      description: "Get the data binary",
+      tags: ["Data"],
+    },
+  })
+  .get("/data/status/:id", ({ params: { id } }) => status({ id }), {
+    params: t.Object({ id: t.String() }),
+    response: t.Object({
+      id: t.String(),
+      bundlerId: t.Integer(),
+      arweaveId: t.String(),
+      status: t.String(),
+    }),
+    detail: {
+      summary: "Get the status uploaded data by ID",
+      description: "Get the status uploaded data by ID",
       tags: ["Data"],
     },
   })
@@ -22,7 +36,4 @@ export const data = new Elysia({ name: "data" })
       description: "Upload the data to a random staked bundler within the network",
       tags: ["Data"],
     },
-  })
-  .post("/data/:id/status", ({ params: { id } }) => status({ id }), {
-    params: t.Object({ id: t.String() }),
   });
