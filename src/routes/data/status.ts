@@ -1,6 +1,5 @@
 import { eq } from "drizzle-orm";
 import { database } from "../../services";
-import { notFound, parseJSON } from "../../utils/response";
 import { dataSchema } from "../../schema";
 import { NotFoundError } from "elysia";
 

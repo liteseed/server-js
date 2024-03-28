@@ -20,11 +20,13 @@ export default async function uploadData({
   if (file.size > MAX_SIZE) {
     throw new ParseError(`file size too large: ${file.size}`)
   }
+
   const tags: Tags = await JSON.parse(tagsJson);
   const staker = await selectRandomStaker();
   if (!staker) {
     throw new InternalServerError();
   }
+  tags.push({name: "content-type", value: file.type})
   const bundlerResponse = await lambda.processFile({ file, url: staker.url, tags: tags });
   const result = await database
     .insert(dataSchema)

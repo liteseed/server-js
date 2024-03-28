@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
 import { InternalServerError, NotFoundError } from "elysia";
-import { dataSchema } from "../../schema";
+import { bundlerResponseSchema, dataSchema } from "../../schema";
 import { database } from "../../services";
 
 type DataGetParam = { id: string };
@@ -9,12 +9,20 @@ export default async function decode({ id }: DataGetParam): Promise<Response> {
   if (!result) {
     throw new NotFoundError(`/data/${id}`);
   }
+
+  const bundlerResponse = await database.query.bundlerResponseSchema.findFirst({
+    where: eq(bundlerResponseSchema.id, result.arweaveId),
+  });
+  if (!bundlerResponse) {
+    throw new InternalServerError();
+  }
+
   const response = await fetch(`https://arweave.net/${result.arweaveId}`);
   if (response.status !== 200) {
     throw new InternalServerError();
   }
 
   const text = await response.text();
-  const buffer = Buffer.from(text, "base64url")
+  const buffer = Buffer.from(text, "base64url");
   return new Response(buffer);
 }
