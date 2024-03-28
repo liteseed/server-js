@@ -20,7 +20,7 @@ export const statusEnum = pgEnum("status", ["failed", "initiated", "queued", "su
 export const dataSchema = pgTable("data", {
   id: uuid("id").primaryKey().defaultRandom(),
   bundlerId: integer("bundler_id").notNull(),
-  arweaveId: text("arweave_id").notNull(),
+  arweaveId: text("arweave_id"),
   status: statusEnum("status").notNull(),
 });
 

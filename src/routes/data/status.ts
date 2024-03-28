@@ -8,7 +8,7 @@ type DataStatusResponse = {
   id: string;
   status: "initiated" | "queued" | "success" | "failed";
   bundlerId: number;
-  arweaveId: string;
+  arweaveId: string | null;
 };
 export default async function status({ id }: DataGetParam): Promise<DataStatusResponse> {
   const result = await database.query.dataSchema.findFirst({ where: eq(dataSchema.id, id) });
