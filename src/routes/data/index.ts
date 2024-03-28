@@ -17,7 +17,7 @@ export const data = new Elysia({ name: "data" })
     response: t.Object({
       id: t.String(),
       bundlerId: t.Integer(),
-      arweaveId: t.String(),
+      arweaveId: t.Nullable(t.String()),
       status: t.String(),
     }),
     detail: {
