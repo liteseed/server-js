@@ -10,13 +10,6 @@ export default async function decode({ id }: DataGetParam): Promise<Response> {
     throw new NotFoundError(`/data/${id}`);
   }
 
-  const bundlerResponse = await database.query.bundlerResponseSchema.findFirst({
-    where: eq(bundlerResponseSchema.id, result.arweaveId),
-  });
-  if (!bundlerResponse) {
-    throw new InternalServerError();
-  }
-
   const response = await fetch(`https://arweave.net/${result.arweaveId}`);
   if (response.status !== 200) {
     throw new InternalServerError();
