@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
 import { InternalServerError, NotFoundError } from "elysia";
-import { bundlerResponseSchema, dataSchema } from "../../schema";
+import { dataSchema } from "../../schema";
 import { database } from "../../services";
 
 type DataGetParam = { id: string };
